@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { userContext } from '../../Provider/AuthProvider';
 
 const Register = () => {
+ const {createUser}=useContext(userContext)
+ console.log(createUser)
+    const handleSingUp=(event)=>{
+        event.preventDefault();
+        const form=event.target;
+        const email=form.email.value;
+        const password=form.password.value;
+    
+        console.log(email,password)
+       createUser(email,password)
+       .then(result=>{
+        const loggedUser=result.user;
+        console.log(loggedUser)
+        form.reset()
+      
+       })
+       .catch(error=>{console.log(error)})
+
+    }
+
     return (
         <div className="hero mt-6">
   <div className="hero-content flex-col">
@@ -10,7 +31,7 @@ const Register = () => {
       
     </div>
     <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-      <form className="card-body ">
+      <form className="card-body " onSubmit={handleSingUp}>
         <div className="form-control">
           <label className="label">
             <span className="label-text">User Name</span>
